@@ -13,6 +13,29 @@ class Card:
         rep = self.rank + self.suit
         return rep
 
+class Unprintable_Card(Card):
+    """Карта, номинал и масть которой
+    не могут быть выведены на экран. """
+
+    def __str__(self):
+        return "<нельзя напечатать>"
+
+class Positionable_Card(Card):
+    """ Карта, которую можно положить
+    лицом или рубашкой вверх. """
+
+    def __init__(self, rank, suit, face_up = True):
+        super(). __init__(rank, suit)
+        self.is_face_up = face_up
+    def __str__(self):
+        if self.is_face_up:
+            rep = super().__str__()
+        else:
+            rep = "XX"
+        return rep
+    def flip(self):
+        self.is_face_up = not self.is_face_up
+
 class Hand:
     """ Рука: набор карт на руках у одного игрока. """
 
@@ -59,34 +82,17 @@ class Deck(Hand):
                 else:
                     print("Не могу больше сдавать:",
                         " карты закончились!")
-        
-deck1 = Deck()
-print("Создана новая колода")
-print("Вот эта колода:")
-print(deck1)
 
-deck1.populate()
-print("\nВ колоде появились карты.")
-print("Вот как она выглядит теперь:")
-print(deck1)
-
-deck1.shuffle()
-print("\nКолода премещана.")
-print("Вот как она выглядит теперь:")
-print(deck1)
-
-my_hand = Hand()
-your_hand = Hand()
-hands = [my_hand, your_hand]
-deck1.deal(hands, per_hand = 5)
-print("\nМне и вам на руки роздано по 5 карт.")
-print("У меня на руках:")
-print(my_hand)
-print("У вас на руках:")
-print(your_hand)
-print("Остались в колоде:")
-print(deck1)
-
-deck1.clear()
-print("\nКолода очищена.")
-print("Вот как она выглядит теперь:", deck1)
+card1 = Card("T", Card.SUITS[0])
+card2 = Unprintable_Card("T", Card.SUITS[1])
+card3 = Positionable_Card("T", Card.SUITS[2])
+print("Печатаю объект Card:")
+print(card1)
+print("\nПесатаю объект Unprintable_card:")
+print(card2)
+print("\nПечатаю объект Positionable_Card:")
+print(card3)
+print("Переворачиваю объект Positionable_Card.")
+card3.flip()
+print("Печатаю объект Posionable_Card:")
+print(card3)
